@@ -1,22 +1,27 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png" />
-    <HelloWorld msg="Welcome to Your Vue.js App" />
+    <bloc-reservation msg="Welcome to our booking reservation" />
   </div>
 </template>
 
 <script>
-import HelloWorld from "./components/HelloWorld.vue";
+import BlocReservation from "./components/BlocReservation.vue";
 
 export default {
   name: "App",
   components: {
-    HelloWorld,
+    BlocReservation,
   },
 };
 </script>
 
 <style lang="scss">
+body {
+  background-color: rgb(255, 255, 255);
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  height: 100%;
+  box-sizing: border-box;
+}
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -24,5 +29,10 @@ export default {
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
+  display: flex;
+  //justify-content: center;
+  min-height: 100vh;
+  width: 100%;
+  flex-direction: column;
 }
 </style>

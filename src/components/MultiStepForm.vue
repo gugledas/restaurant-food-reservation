@@ -1,5 +1,5 @@
 <template>
-  <div class="multi-step-form">
+  <div class="multi-step-form p-2">
     <form class="form" @submit="submitStep">
       <slot name="header"></slot>
 
@@ -13,10 +13,13 @@
         <div v-if="currentStep == 2" key="third">
           <nombre-place></nombre-place>
         </div>
+        <div v-if="currentStep == 3" key="third">
+          <choose-offer></choose-offer>
+        </div>
       </transition>
     </form>
-    steps :
-    <pre>{{ steps }}</pre>
+    <!-- steps :
+    <pre>{{ steps }}</pre> -->
   </div>
 </template>
 
@@ -24,10 +27,11 @@
 import VueCalendar from "./VueCalendar.vue";
 import TimeDisplay from "./TimeDisplay.vue";
 import NombrePlace from "./NombrePlace.vue";
+import ChooseOffer from "./ChooseOffer";
 import { mapState } from "vuex";
 export default {
   name: "MultiStepForm",
-  components: { VueCalendar, TimeDisplay, NombrePlace },
+  components: { VueCalendar, TimeDisplay, NombrePlace, ChooseOffer },
   props: {},
   data() {
     return {

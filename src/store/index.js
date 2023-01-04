@@ -27,7 +27,15 @@ export default new Vuex.Store({
         step_valid: false,
         step_skip: false,
         step_icon: "person",
-        step_name: "Nombre de place",
+        step_name: "Offres",
+        value: "",
+      },
+      {
+        step_no: 4,
+        step_valid: false,
+        step_skip: false,
+        step_icon: "bullseye",
+        step_name: "Choisir une offre",
         value: "",
       },
     ],
@@ -39,7 +47,6 @@ export default new Vuex.Store({
       state.currentStep = stepIndex;
     },
     SET_STEP_VALUE(state, value) {
-      console.log("SET_STEP_VALUE", state.currentStep);
       state.steps[state.currentStep].value = value;
       state.steps[state.currentStep].step_valid = true;
       if (state.currentStep + 1 < state.steps.length) {

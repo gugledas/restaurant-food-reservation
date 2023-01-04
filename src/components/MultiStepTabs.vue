@@ -83,7 +83,6 @@ export default {
       return date;
     },
     showLabel(step) {
-      console.log("actir", step.value);
       if (step && step.value && step.value != "") {
         return true;
       } else return false;

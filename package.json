@@ -12,7 +12,8 @@
     "core-js": "^3.8.3",
     "moment": "^2.29.4",
     "vue": "^2.6.14",
-    "vuex": "^3.6.2"
+    "vuex": "^3.6.2",
+    "wbuutilities": "file:../wbuutilities"
   },
   "devDependencies": {
     "@babel/core": "^7.12.16",

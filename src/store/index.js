@@ -40,6 +40,7 @@ export default new Vuex.Store({
       },
     ],
     currentStep: 0,
+    urlLoad: "/booking-system/dates",
   },
   getters: {},
   mutations: {

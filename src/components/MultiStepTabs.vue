@@ -1,6 +1,5 @@
 <template>
   <div class="multi-step-tabs mb-4">
-    currentStep: {{ currentStep }}
     <div class="step-tabs-container">
       <div class="step-banner">
         <div

@@ -1,6 +1,7 @@
 <template>
   <div>
-    <div class="myi-5">
+    <!-- max: {{ maxDate }}| min: {{ minDate }} -->
+    <div class="myi-5" v-show="!configIsLoading">
       <h6 class="title-steps">
         <span class="ts-icon">
           <b-icon icon="calendar2-date" font-scale="1.2"></b-icon>
@@ -24,17 +25,32 @@
         @selected="setStepValue"
       ></b-calendar>
     </div>
+    <div class="mt-2" v-show="configIsLoading">
+      <b-skeleton
+        class="mb-3"
+        animation="wave"
+        width="75%"
+        height="20px"
+      ></b-skeleton>
+      <b-skeleton animation="wave" width="98%" height="220px"></b-skeleton>
+    </div>
   </div>
 </template>
 
 <script>
-//import moment from "../js/moment";
+import moment from "../js/moment";
+import rootConfig from "../rootConfig";
+import { mapState } from "vuex";
 export default {
   name: "BlocReservation",
   components: {},
   props: {},
   data() {
     return {
+      /* calendar config */
+      calendarConfig: {},
+      // urlLoad: "/booking-system/dates",
+      configIsLoading: false,
       mounthLabel: [
         "Janvier",
         "Fevrier",
@@ -68,29 +84,39 @@ export default {
   },
   mounted() {
     this.getMinDate();
+    this.loadCalendarConfig();
+  },
+  computed: {
+    ...mapState(["urlLoad"]),
   },
   methods: {
     getMinDate() {
-      const now = new Date();
-      const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-      // 15th two months prior
-      const minDate = new Date(today);
-      minDate.setMonth(minDate.getMonth() - 2);
-      minDate.setDate(15);
-
+      const now = moment().toDate();
+      // Date minimum
       this.minDate = now;
 
-      const maxDate = new Date(today);
-      maxDate.setMonth(maxDate.getMonth() + 2);
-      maxDate.setDate(15);
-      this.maxDate = maxDate;
+      //date Maximum
+      if (this.calendarConfig.numberOfDisplayedDays) {
+        let max = moment().add(this.calendarConfig.numberOfDisplayedDays, "d");
+        this.maxDate = max.toDate();
+      } else {
+        let max = moment().add(2, "M");
+        this.maxDate = max.toDate();
+      }
+
+      // this.maxDate = maxDate;
     },
     dateDisabled(ymd, date) {
       // Disable weekends (Sunday = `0`, Saturday = `6`) and
       // disable days that fall on the 13th of the month
       const weekday = date.getDay();
       const day = date.getDate();
+      //console.log("ymd", ymd);
       // Return `true` if the date should be disabled
+      if (this.calendarConfig.disabledDays) {
+        let dayInclude = this.calendarConfig.disabledDays.includes(weekday);
+        if (dayInclude) return true;
+      }
       return weekday === 0 || weekday === 6 || day === 13;
     },
     onContext(ctx) {
@@ -98,7 +124,25 @@ export default {
     },
     setStepValue(ymd, date) {
       console.log("value", ymd, "--", date);
-      this.$store.dispatch("setStepValue", date);
+      this.$store.dispatch("setStepValue", ymd);
+      this.$emit("ev_data", date);
+    },
+    loadCalendarConfig() {
+      this.configIsLoading = true;
+      rootConfig
+        .get(this.urlLoad)
+        .then((rep) => {
+          console.log("config response", rep.data);
+          if (rep.data) this.initCalendar(rep.data);
+          this.configIsLoading = false;
+        })
+        .catch((er) => {
+          console.log("Calendar config error", er);
+        });
+    },
+    initCalendar(datas) {
+      this.calendarConfig = datas;
+      this.getMinDate();
     },
   },
 };

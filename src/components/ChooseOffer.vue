@@ -184,7 +184,7 @@ $gray-color: #f8f9fa;
   .book-btn {
     display: block;
     width: 100%;
-    padding: 15px 10px;
+    padding: 10px 10px;
     background: lighten($first-color, 10);
     color: white;
     text-transform: uppercase;

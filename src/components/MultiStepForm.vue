@@ -3,20 +3,23 @@
     <form class="form" @submit="submitStep">
       <slot name="header"></slot>
 
-      <transition name="slide-fade" mode="out-in">
-        <div v-if="currentStep == 0">
-          <vue-calendar></vue-calendar>
-        </div>
-        <div v-if="currentStep == 1" key="second">
-          <time-display></time-display>
-        </div>
-        <div v-if="currentStep == 2" key="third">
-          <nombre-place></nombre-place>
-        </div>
-        <div v-if="currentStep == 3" key="third">
-          <choose-offer></choose-offer>
-        </div>
-      </transition>
+      <!-- <transition-group name="slide-fade" mode="eout-in"> -->
+      <div v-show="currentStep == 0" key="first" class="animate">
+        <vue-calendar @ev_data="ev_date_value"></vue-calendar>
+      </div>
+      <div v-show="currentStep == 1" key="second" class="animate">
+        <time-display
+          ref="timedisplay"
+          @ev_hours="ev_hours_value"
+        ></time-display>
+      </div>
+      <div v-show="currentStep == 2" key="third" class="animate">
+        <nombre-place></nombre-place>
+      </div>
+      <div v-show="currentStep == 3" key="four" class="animate">
+        <choose-offer></choose-offer>
+      </div>
+      <!-- </transition-group> -->
     </form>
     <!-- steps :
     <pre>{{ steps }}</pre> -->
@@ -48,6 +51,13 @@ export default {
     },
   },
   methods: {
+    ev_date_value(date) {
+      console.log("voici dates", date, "", this.$refs.timedisplay);
+      this.$refs.timedisplay.loadAvailableHours(date);
+    },
+    ev_hours_value() {
+      // this.$refs.time.loadAvailableHours(date);
+    },
     submitStep(ev) {
       ev.preventDefault();
       // if (!this.steps[this.activeStepIndex].step_valid) {
@@ -126,5 +136,19 @@ a {
 /* .slide-fade-leave-active below version 2.1.8 */ {
   transform: translateX(10px);
   opacity: 0;
+}
+.animate {
+  transition: opacity 0.4s, transform 0.3s;
+  animation: animateFade 0.4s linear;
+}
+@keyframes animateFade {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 </style>

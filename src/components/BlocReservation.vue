@@ -6,7 +6,6 @@
         <multi-step-tabs
           ref="multiStepTabs"
           @selectStep="selectStep"
-          :steps="steps"
         ></multi-step-tabs>
         <multi-step-form
           ref="multiStepForm"
@@ -35,7 +34,6 @@ export default {
           step_no: 1,
           step_valid: false,
           step_skip: false,
-          template: MultiStepTabs,
         },
         {
           step_no: 2,

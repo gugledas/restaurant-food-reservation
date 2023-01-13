@@ -1,10 +1,9 @@
 <template>
   <div>
-    <div class="myi-5">
+    <div class="myi-5" v-show="!hoursIsLoading">
       <h6 class="title-steps">
         <span class="ts-icon">
           <b-icon icon="clock" font-scale="1.2"></b-icon>
-          <!-- <b-icon icon="filter-square"></b-icon> -->
         </span>
         Choisir une heure
       </h6>
@@ -24,50 +23,112 @@
         </div>
       </div>
     </div>
+    <div class="mt-2" v-show="hoursIsLoading">
+      <div class="mb-4">
+        <b-skeleton
+          class="mb-3"
+          animation="wave"
+          width="40%"
+          height="20px"
+        ></b-skeleton>
+        <div class="row">
+          <div class="col-3 mb-2">
+            <b-skeleton animation="wave" height="30px"></b-skeleton>
+          </div>
+          <div class="col-3 mb-2">
+            <b-skeleton animation="wave" height="30px"></b-skeleton>
+          </div>
+          <div class="col-3 mb-2">
+            <b-skeleton animation="wave" height="30px"></b-skeleton>
+          </div>
+          <div class="col-3 mb-2">
+            <b-skeleton animation="wave" height="30px"></b-skeleton>
+          </div>
+          <div class="col-3 mb-2">
+            <b-skeleton animation="wave" height="30px"></b-skeleton>
+          </div>
+          <div class="col-3 mb-2">
+            <b-skeleton animation="wave" height="30px"></b-skeleton>
+          </div>
+          <div class="col-3 mb-2">
+            <b-skeleton animation="wave" height="30px"></b-skeleton>
+          </div>
+          <div class="col-3 mb-2">
+            <b-skeleton animation="wave" height="30px"></b-skeleton>
+          </div>
+        </div>
+      </div>
+      <div class="mb-4">
+        <b-skeleton class="mb-3" animation="wave" width="40%"></b-skeleton>
+        <div class="row">
+          <div class="col-3 mb-2">
+            <b-skeleton animation="wave" height="30px"></b-skeleton>
+          </div>
+          <div class="col-3 mb-2">
+            <b-skeleton animation="wave" height="30px"></b-skeleton>
+          </div>
+          <div class="col-3 mb-2">
+            <b-skeleton animation="wave" height="30px"></b-skeleton>
+          </div>
+          <div class="col-3 mb-2">
+            <b-skeleton animation="wave" height="30px"></b-skeleton>
+          </div>
+          <div class="col-3 mb-2">
+            <b-skeleton animation="wave" height="30px"></b-skeleton>
+          </div>
+          <div class="col-3 mb-2">
+            <b-skeleton animation="wave" height="30px"></b-skeleton>
+          </div>
+          <div class="col-3 mb-2">
+            <b-skeleton animation="wave" height="30px"></b-skeleton>
+          </div>
+          <div class="col-3 mb-2">
+            <b-skeleton animation="wave" height="30px"></b-skeleton>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
-//import moment from "../js/moment";
+import moment from "../js/moment";
+import rootConfig from "../rootConfig";
+import { mapState } from "vuex";
 export default {
-  name: "BlocReservation",
+  name: "TimeDisplay",
   components: {},
   props: {},
   data() {
     return {
-      allTime: [
-        {
-          name: "lunch",
-          times: [
-            "12:30",
-            "13:00",
-            "12:30",
-            "12:30",
-            "12:30",
-            "12:30",
-            "12:30",
-            "12:30",
-          ],
-        },
-        {
-          name: "Dinner",
-          times: [
-            "17:30",
-            "18:00",
-            "12:30",
-            "12:30",
-            "12:30",
-            "12:30",
-            "12:30",
-            "12:30",
-            "12:30",
-          ],
-        },
-      ],
+      hoursIsLoading: false,
+      allTime: [],
     };
   },
   mounted() {},
+  computed: {
+    ...mapState(["urlLoad"]),
+  },
   methods: {
+    loadAvailableHours(date) {
+      this.hoursIsLoading = true;
+      let date_string = moment(date).unix();
+      console.log("date", date_string);
+
+      rootConfig
+        .get(this.urlLoad + "/" + date_string)
+        .then((reponse) => {
+          console.log("hours response", reponse);
+          if (reponse.data) this.setAllTime(reponse.data);
+          this.hoursIsLoading = false;
+        })
+        .catch((er) => {
+          console.log("hours error", er);
+        });
+    },
+    setAllTime(data) {
+      this.allTime = data;
+    },
     setTime(value) {
       this.$store.dispatch("setStepValue", value);
     },

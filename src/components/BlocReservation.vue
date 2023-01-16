@@ -1,7 +1,6 @@
 <template>
   <div class="hello">
     <div class="steps-container p-5">
-      <div class="step-tabs item"></div>
       <div class="steps-content item">
         <multi-step-tabs
           ref="multiStepTabs"
@@ -81,9 +80,6 @@ a {
   .item {
     flex: auto;
     min-width: 40%;
-  }
-  .step-tabs {
-    max-width: 300px;
   }
 }
 </style>

@@ -41,6 +41,7 @@ export default new Vuex.Store({
     ],
     currentStep: 0,
     urlLoad: "/booking-system/dates",
+    defaultConfig: null,
   },
   getters: {},
   mutations: {
@@ -54,6 +55,9 @@ export default new Vuex.Store({
         state.currentStep++;
       }
     },
+    SET_DEFAULT_CONFIG(state, value) {
+      state.defaultConfig = value;
+    },
   },
   actions: {
     setCurrentStep({ commit }, stepIndex) {
@@ -61,6 +65,9 @@ export default new Vuex.Store({
     },
     setStepValue({ commit }, value) {
       commit("SET_STEP_VALUE", value);
+    },
+    setDefaultConfig({ commit }, datas) {
+      commit("SET_DEFAULT_CONFIG", datas);
     },
   },
   modules: {},

@@ -1,18 +1,20 @@
 <template>
-  <div class="hello">
-    <div class="steps-container p-5">
-      <div class="steps-content item">
-        <multi-step-tabs
-          ref="multiStepTabs"
-          @selectStep="selectStep"
-        ></multi-step-tabs>
-        <multi-step-form
-          ref="multiStepForm"
-          :steps="steps"
-          @onComplete="submitForm"
-          @validateStep="validateStep"
-        >
-        </multi-step-form>
+  <div class="container">
+    <div class="steps-container py-5 row justify-content-center">
+      <div class="steps-content col-12 col-lg-8">
+        <div>
+          <multi-step-tabs
+            ref="multiStepTabs"
+            @selectStep="selectStep"
+          ></multi-step-tabs>
+          <multi-step-form
+            ref="multiStepForm"
+            :steps="steps"
+            @onComplete="submitForm"
+            @validateStep="validateStep"
+          >
+          </multi-step-form>
+        </div>
       </div>
     </div>
   </div>
@@ -57,25 +59,11 @@ export default {
 </script>
 
 <style scoped lang="scss">
-h3 {
-  margin: 40px 0 0;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
-}
 .steps-container {
-  max-width: 1200px;
-  min-height: 40vh;
-  margin: 0 auto;
-  display: flex;
+  // max-width: 1200px;
+  // min-height: 40vh;
+  // margin: 0 auto;
+  // display: flex;
   // align-items: flex-start;
   .item {
     flex: auto;

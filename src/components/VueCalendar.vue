@@ -32,7 +32,7 @@
         width="75%"
         height="20px"
       ></b-skeleton>
-      <b-skeleton animation="wave" width="98%" height="220px"></b-skeleton>
+      <b-skeleton animation="wave" width="100%" height="220px"></b-skeleton>
     </div>
   </div>
 </template>
@@ -48,7 +48,7 @@ export default {
   data() {
     return {
       /* calendar config */
-      calendarConfig: {},
+      //  calendarConfig: {},
       // urlLoad: "/booking-system/dates",
       configIsLoading: false,
       mounthLabel: [
@@ -87,7 +87,7 @@ export default {
     this.loadCalendarConfig();
   },
   computed: {
-    ...mapState(["urlLoad"]),
+    ...mapState(["urlLoad", "defaultConfig"]),
   },
   methods: {
     getMinDate() {
@@ -96,8 +96,8 @@ export default {
       this.minDate = now;
 
       //date Maximum
-      if (this.calendarConfig.numberOfDisplayedDays) {
-        let max = moment().add(this.calendarConfig.numberOfDisplayedDays, "d");
+      if (this.defaultConfig && this.defaultConfig.numberOfDisplayedDays) {
+        let max = moment().add(this.defaultConfig.numberOfDisplayedDays, "d");
         this.maxDate = max.toDate();
       } else {
         let max = moment().add(2, "M");
@@ -110,14 +110,20 @@ export default {
       // Disable weekends (Sunday = `0`, Saturday = `6`) and
       // disable days that fall on the 13th of the month
       const weekday = date.getDay();
-      const day = date.getDate();
+      //const day = date.getDate();
       //console.log("ymd", ymd);
       // Return `true` if the date should be disabled
-      if (this.calendarConfig.disabledDays) {
-        let dayInclude = this.calendarConfig.disabledDays.includes(weekday);
+      if (this.defaultConfig && this.defaultConfig.disabledDays) {
+        let dayInclude = this.defaultConfig.disabledDays.includes(weekday);
         if (dayInclude) return true;
       }
-      return weekday === 0 || weekday === 6 || day === 13;
+      if (this.defaultConfig && this.defaultConfig.disabledDates) {
+        let jour = moment(date).unix();
+        let isDisable = this.defaultConfig.disabledDates.includes(jour);
+        if (isDisable) return true;
+      }
+      return 0;
+      //return weekday === 0 || weekday === 6 || day === 13;
     },
     onContext(ctx) {
       this.context = ctx;
@@ -141,7 +147,8 @@ export default {
         });
     },
     initCalendar(datas) {
-      this.calendarConfig = datas;
+      this.$store.dispatch("setDefaultConfig", datas);
+      //this.calendarConfig = datas;
       this.getMinDate();
     },
   },

@@ -95,7 +95,7 @@ $active-color: rgb(88, 148, 66);
 $gray-color: #f8f9fa;
 .step-banner {
   width: 100%;
-  height: 38px;
+  min-height: 38px;
   //border-radius: 5px;
   display: flex;
   overflow: hidden;
@@ -133,6 +133,7 @@ $gray-color: #f8f9fa;
     font-size: 14px;
     color: black;
     transition: 0.3s;
+    min-height: 38px;
     &--active {
       background: $active-color;
       color: white;

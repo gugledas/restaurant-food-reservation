@@ -17,6 +17,7 @@
               @click="setTime(place)"
             >
               <span class="time">{{ place }}</span>
+              <span class="tt-discount">-12%</span>
             </button>
           </div>
         </div>
@@ -27,29 +28,34 @@
 
 <script>
 //import moment from "../js/moment";
+import { mapState } from "vuex";
 export default {
   name: "BlocReservation",
   components: {},
   props: {},
   data() {
     return {
-      nombrePlaces: [
-        "1",
-        "2",
-        "3",
-        "4",
-        "5",
-        "6",
-        "3",
-        "4",
-        "1",
-        "2",
-        "3",
-        "4",
-      ],
+      Places: ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"],
     };
   },
   mounted() {},
+  computed: {
+    ...mapState(["defaultConfig"]),
+    nombrePlaces() {
+      if (this.defaultConfig && this.defaultConfig.maxPeoples) {
+        let nbPlace = [];
+        let begin = 1;
+        while (nbPlace.length < this.defaultConfig.maxPeoples) {
+          nbPlace.push(begin);
+          console.log("ae");
+          begin++;
+        }
+        return nbPlace;
+      } else {
+        return this.Places;
+      }
+    },
+  },
   methods: {
     setTime(value) {
       this.$store.dispatch("setStepValue", value);

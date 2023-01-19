@@ -1,5 +1,5 @@
 <template>
-  <div class="multi-step-form p-2">
+  <div class="multi-step-form">
     <form class="form" @submit="submitStep">
       <slot name="header"></slot>
 
@@ -78,6 +78,8 @@ export default {
 </script>
 
 <style lang="scss">
+$first-color: rgb(88 148 66);
+$gray-color: #f8f9fa;
 a {
   color: #42b983;
 }
@@ -120,6 +122,65 @@ a {
     &:hover {
       background: #131313;
       border-color: #131313;
+    }
+  }
+}
+.hours-content {
+  text-align: left;
+  .block-time {
+    margin-bottom: 30px;
+  }
+  .time-title {
+    font-size: 13px;
+    color: black;
+    text-transform: uppercase;
+    font-weight: bold;
+    margin-bottom: 20px;
+  }
+  .time-list {
+    display: flex;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .time-btn {
+    min-width: 80px;
+    max-width: 162px;
+    padding: 12px 18px;
+    background: transparent;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    border: 1px solid rgb(91, 91, 91);
+    transition: border 0.4s, background 0.3s, box-shadow 0.3s, color 0.3s;
+    font-weight: bold;
+    flex: 1 1 20%;
+    margin-bottom: 15px;
+    position: relative;
+    &:hover {
+      //background-color: rgba($first-color, 0.2);
+      color: $first-color;
+      border: 1px solid $first-color;
+    }
+    &:focus,
+    &:active {
+      box-shadow: 0px 0px 6px $first-color;
+      border-color: $first-color;
+    }
+    .tt-discount {
+      padding: 7px 4px;
+      background-color: rgb(59, 58, 58);
+      color: white;
+      border-radius: 2px;
+      position: absolute;
+      bottom: -17px;
+      line-height: 1;
+      left: 50%;
+      width: 50%;
+      text-align: center;
+      transform: translateX(-50%);
     }
   }
 }

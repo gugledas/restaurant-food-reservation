@@ -146,13 +146,13 @@ $gray-color: #f8f9fa;
       &::after {
         content: "";
         position: absolute;
-        width: 2.12rem;
-        height: 2.12rem;
-        top: 0.16rem;
+        width: 32%;
+        height: 60px;
+        top: 50%;
         bottom: 0px;
         right: -0.675rem;
         clip-path: polygon(0% 0%, 100% 100%, 0% 100%);
-        transform: rotate(-135deg);
+        transform: translateY(-50%) rotate(-135deg);
         background-color: $active-color;
         border-radius: calc(0.625rem) 0.25rem;
         z-index: 2;
